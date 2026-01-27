@@ -8,3 +8,37 @@ build/
 desktop.ini
 
 .direnv
+
+# gradle
+.gradle
+build
+
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.iml
+*.ipr
+*.iws
+.idea
+
+# vscode
+.vscode
+
+# fabric
+remappedSrc
+minecraft
+run
+
+# common
+logs
+*.log
+README.md
+CHANGES.md
+CUSTOMIZATION_GUIDE.md
