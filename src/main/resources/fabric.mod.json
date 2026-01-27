@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "vanillarpc",
+  "id": "fragrpc",
   "version": "${version}",
-  "name": "Vanilla RPC",
+  "name": "FragRPC",
   "description": "Vanilla Discord RPC for modded Minecraft",
   "authors": [
     "NikSne"
@@ -14,11 +14,11 @@
     "homepage": "https://niksne.ru"
   },
   "license": "AGPL-3.0",
-  "icon": "assets/vanillarpc/icon.png",
+  "icon": "assets/fragrpc/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "ru.niksne.vanillarpc.VanillaRPC"
+      "com.fragmc.rpc.FragRPC"
     ]
   },
   "depends": {
