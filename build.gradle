@@ -8,6 +8,8 @@ group = project.maven_group
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.scijava.org/content/repositories/public/' }
 }
 
 dependencies {
