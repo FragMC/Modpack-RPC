@@ -18,7 +18,7 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     
-    // Discord RPC - CORRECTED with proper group ID
+    // Discord RPC - WORKING VERSION
     // The main library from Maven Central
     implementation('club.minnced:java-discord-rpc:2.0.2') {
         exclude module: 'log4j'
@@ -27,9 +27,9 @@ dependencies {
         exclude module: 'log4j'
     }
     
-    // The native binaries from JitPack (note the different group ID!)
-    implementation 'com.github.MinnDevelopment:discord-rpc-release:3.4.0'
-    include 'com.github.MinnDevelopment:discord-rpc-release:3.4.0'
+    // The native binaries from JitPack (using Vatuu's mirror which is more reliable)
+    implementation 'com.github.Vatuu:discord-rpc-binaries:3.4.0'
+    include 'com.github.Vatuu:discord-rpc-binaries:3.4.0'
 }
 
 processResources {
