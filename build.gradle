@@ -18,17 +18,18 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     
-    // Discord RPC with natives - FIXED VERSION
+    // Discord RPC - CORRECTED VERSION
+    // The main library
     implementation('club.minnced:java-discord-rpc:2.0.2') {
         exclude module: 'log4j'
     }
     include('club.minnced:java-discord-rpc:2.0.2') {
         exclude module: 'log4j'
     }
-    // Include native libraries for all platforms
-    include 'club.minnced:java-discord-rpc:2.0.2:natives-windows-x86_64'
-    include 'club.minnced:java-discord-rpc:2.0.2:natives-linux-x86_64'
-    include 'club.minnced:java-discord-rpc:2.0.2:natives-darwin'
+    
+    // The native binaries (this is what was missing!)
+    implementation 'club.minnced:discord-rpc-release:v3.4.0'
+    include 'club.minnced:discord-rpc-release:v3.4.0'
 }
 
 processResources {
