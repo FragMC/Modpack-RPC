@@ -6,6 +6,11 @@ import club.minnced.discord.rpc.DiscordRichPresence;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+
 public class FragRPC implements ClientModInitializer {
 
     // ========================================
@@ -63,8 +68,69 @@ public class FragRPC implements ClientModInitializer {
     // END CUSTOMIZATION SECTION
     // ========================================
 
+    private static void loadNativeLibrary() {
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            String arch = System.getProperty("os.arch");
+            
+            String libraryPath;
+            String libraryName;
+            
+            if (os.contains("win")) {
+                if (arch.contains("64")) {
+                    libraryPath = "/win32-x86-64/discord-rpc.dll";
+                } else {
+                    libraryPath = "/win32-x86/discord-rpc.dll";
+                }
+                libraryName = "discord-rpc.dll";
+            } else if (os.contains("mac")) {
+                libraryPath = "/darwin/libdiscord-rpc.dylib";
+                libraryName = "libdiscord-rpc.dylib";
+            } else {
+                // Linux
+                libraryPath = "/linux-x86-64/libdiscord-rpc.so";
+                libraryName = "libdiscord-rpc.so";
+            }
+            
+            // Try to load from JAR resources
+            InputStream in = FragRPC.class.getResourceAsStream(libraryPath);
+            if (in != null) {
+                // Extract to temp directory
+                File tempDir = new File(System.getProperty("java.io.tmpdir"), "discord-rpc");
+                tempDir.mkdirs();
+                File tempLib = new File(tempDir, libraryName);
+                
+                // Only extract if doesn't exist or is different
+                if (!tempLib.exists()) {
+                    try (FileOutputStream out = new FileOutputStream(tempLib)) {
+                        byte[] buffer = new byte[8192];
+                        int read;
+                        while ((read = in.read(buffer)) != -1) {
+                            out.write(buffer, 0, read);
+                        }
+                    }
+                    tempLib.deleteOnExit();
+                }
+                in.close();
+                
+                // Load the library
+                System.load(tempLib.getAbsolutePath());
+                System.out.println("[FragRPC] Successfully loaded native Discord RPC library from: " + tempLib.getAbsolutePath());
+            } else {
+                System.err.println("[FragRPC] Could not find native library in JAR: " + libraryPath);
+                System.err.println("[FragRPC] Attempting to use system library...");
+            }
+        } catch (Exception e) {
+            System.err.println("[FragRPC] Failed to load Discord RPC native library:");
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onInitializeClient() {
+        // Load native library first
+        loadNativeLibrary();
+        
         DiscordRPC lib = DiscordRPC.INSTANCE;
 
         DiscordEventHandlers handlers = new DiscordEventHandlers();
