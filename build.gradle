@@ -17,7 +17,18 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    include(implementation 'club.minnced:java-discord-rpc:2.0.2')
+    
+    // Discord RPC with natives - FIXED VERSION
+    implementation('club.minnced:java-discord-rpc:2.0.2') {
+        exclude module: 'log4j'
+    }
+    include('club.minnced:java-discord-rpc:2.0.2') {
+        exclude module: 'log4j'
+    }
+    // Include native libraries for all platforms
+    include 'club.minnced:java-discord-rpc:2.0.2:natives-windows-x86_64'
+    include 'club.minnced:java-discord-rpc:2.0.2:natives-linux-x86_64'
+    include 'club.minnced:java-discord-rpc:2.0.2:natives-darwin'
 }
 
 processResources {
